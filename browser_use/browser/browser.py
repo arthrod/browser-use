@@ -14,6 +14,7 @@ from playwright.async_api import (
 )
 
 from browser_use.browser.context import BrowserContext, BrowserContextConfig
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +115,7 @@ class Browser:
 
 			try:
 				# Check if browser is already running
-				response = requests.get('http://localhost:9222/json/version', timeout=2)
+				response = safe_requests.get('http://localhost:9222/json/version', timeout=2)
 				if response.status_code == 200:
 					logger.info('Reusing existing Chrome instance')
 					browser = await playwright.chromium.connect_over_cdp(
